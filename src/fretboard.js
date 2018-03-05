@@ -22,7 +22,9 @@ class Fretboard {
      * Draws the fretboard calling all draw methods.
      */
     _draw() {
-        this.svg = SVG(this.config.get("container")).viewbox(0, 0, 900, 900).width(500);
+        this.svg = SVG(this.config.get("container"))
+                .viewbox(0, 0, (this.config.get("strings")+1)*25, this.config.get("frets")*40)
+                .width(500);
         
         //draw the fret/string grid
         this._drawGrid();
