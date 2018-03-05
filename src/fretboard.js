@@ -45,7 +45,7 @@ class Fretboard {
         
         //15 pixel padding for fret labels
         this.fretGroup = this.svg.group().id("grid").transform({
-            x: 15,
+            x: 25,
             y: 20
         });
         
@@ -174,7 +174,7 @@ class Fretboard {
      */
     _drawNotes() {
         this._noteGroup = this.svg.group().id("notes").transform({
-            x: 15,
+            x: 25,
             y: this._getFretPos(this.config.get("frets")) - 5 //place below last frets
         });;
         
