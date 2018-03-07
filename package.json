@@ -1,6 +1,6 @@
 {
     "name": "@lyre/fretboard",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "keywords": [
         "music",
         "chords",
@@ -9,6 +9,7 @@
         "chart"
     ],
     "author": "Attibee",
+    "license": "Apache-2.0",
     "contributors": [],
     "dependencies": {
         "@attibee/config": "^1.0.1",
