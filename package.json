@@ -1,18 +1,19 @@
 {
     "name": "@lyre/fretboard",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "music",
         "chords",
+        "chord",
         "fretboard",
         "chart"
     ],
     "author": "Attibee",
     "contributors": [],
-    "dependencies": {},
-    "devDependencies": {
+    "dependencies": {
         "@attibee/config": "^1.0.1",
         "@lyre/note": "0.1.0-alpha.0",
         "svgjs": "^2.6.2"
-    }
+    },
+    "devDependencies": {}
 }
