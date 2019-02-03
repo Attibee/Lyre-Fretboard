@@ -1,3 +1,3 @@
-import {default as Fretboard} from './src/fretboard.js'
-    
-export default Fretboard
+'use strict';
+
+module.exports = require('./src/Fretboard.js');
