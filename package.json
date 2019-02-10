@@ -18,8 +18,7 @@
     "contributors": [],
     "dependencies": {
         "@attibee/config": "^1.0.4",
-        "@lyre/note": "0.1.0-alpha.0",
-        "note": "^1.2.1",
+        "@lyre/note": "^2.1.1",
         "svgjs": "^2.6.2"
     },
     "devDependencies": {}
