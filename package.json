@@ -8,12 +8,18 @@
         "fretboard",
         "chart"
     ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Attibee/Lyre-Fretboard.git"
+    },
+    "homepage": "https://github.com/Attibee/Lyre-Fretboard#readme",
     "author": "Attibee",
     "license": "Apache-2.0",
     "contributors": [],
     "dependencies": {
         "@attibee/config": "^1.0.4",
         "@lyre/note": "0.1.0-alpha.0",
+        "note": "^1.2.1",
         "svgjs": "^2.6.2"
     },
     "devDependencies": {}
