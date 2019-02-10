@@ -188,13 +188,14 @@ class Fretboard {
             var fret = fingering[i];
 
             //ignore unplayed frets
-            if(fret == -1) continue;
+            if(fret === -1) continue;
             
             //calculate note
-            var note = (new Note(tuning[string-1])).getInterval(fret);
-            var offset = note.toString().length == 2 ? 7 : 4; //center text 
+            var note = Note.Parse(tuning[string-1]);
+            var intervalNote = note.getTransposition(fret);
+            var offset = intervalNote.toString().length === 2 ? 7 : 4; //center text 
 
-            this._noteGroup.text(note.toString()).attr({
+            this._noteGroup.text(intervalNote.toString()).attr({
                 "fill": "black",
                 "style": "font-weight: bold; font-size: 14px",
                 x: this._getStringPos(i+1) - offset
