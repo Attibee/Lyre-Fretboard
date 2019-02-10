@@ -9,9 +9,9 @@ Create configurable SVG chord charts for stringed instruments.
 ## Usage
 
 ```javascript
-import {default as Fretboard} from '@lyre/fretboard'
+var Fretboard = require('@lyre/fretboard');
 
-var fretboard = new Fretboard({
+var myFretboard = new Fretboard({
     container: "myContainerId",
     strings: 6,
     frets: 5,
