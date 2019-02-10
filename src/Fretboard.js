@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-import {default as SVG} from 'svgjs'
-import {default as Config} from '@attibee/config'
-import {default as Note} from '@lyre/note'
+var SVG = require("svgjs");
+var Config = require("@attibee/config");
+var Note = require("@lyre/note");
 
 /**
  * Class for drawing chord charts and fretboards of any number frets of strings.
@@ -346,4 +346,4 @@ class Fretboard {
 Fretboard.OPEN_STRING = 0;
 Fretboard.CLOSED_STRING = -1;
 
-export default Fretboard;
+module.exports = Fretboard;
