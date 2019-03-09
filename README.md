@@ -44,6 +44,7 @@ var myFretboard = new Fretboard({
 });
 ```
 
+
 ## Output
 
 ![Example code output](https://github.com/Attibee/Lyre-Fretboard/blob/assets/fretboard_example.png?raw=true)
