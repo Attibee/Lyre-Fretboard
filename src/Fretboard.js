@@ -23,7 +23,7 @@ class Fretboard {
      */
     _draw() {
         this.svg = SVG(this.config.get("container"))
-                .viewbox(0, 0, (this.config.get("strings")+1)*25, this.config.get("frets")*40)
+                .viewbox(0, 0, (this.config.get("strings") + 1) * 25, (this.config.get("frets") + 1) * 40)
                 .width(500);
         
         //draw the fret/string grid
@@ -43,7 +43,7 @@ class Fretboard {
      * Draws a grid of strings and frets.
      */
     _drawGrid() {
-        var firstFret = this._getFirstFret();
+        var firstFret = this._getFirstFret(this.config.get("fingering"));
         
         //15 pixel padding for fret labels
         this.fretGroup = this.svg.group().id("grid").transform({
@@ -52,9 +52,12 @@ class Fretboard {
         });
         
         //draw frets
+        //width of fret spans width of thes trings
         var fretWidth = (this.config.get("strings") - 1) * 25 + 2;
         
-        for(var i = 0; i < this.config.get("frets"); i++) {
+        //draw each fret
+        for(var i = 0; i <= this.config.get("frets"); i++) {
+            //draw the nut if the first fret is the nut
             if(i == 0 && firstFret == 1) {
                 this.fretGroup.rect(fretWidth, 6).attr({x: 0, y: i * 40});
             } else {
@@ -63,7 +66,7 @@ class Fretboard {
         }
         
         //draw strings
-        var stringHeight = (this.config.get("frets") - 1) * 40;
+        var stringHeight = this.config.get("frets") * 40;
                 
         for(var i = 0; i < this.config.get("strings"); i++) {
             this.fretGroup.rect(2, stringHeight).attr({x: i * 25, y: 0});
@@ -114,10 +117,14 @@ class Fretboard {
      * 
      * @return {float} The y position of the fret. 
      */
-    _getFretPos(fret) {
-        return fret * 40 - 20;
+    _getRelativeFretPos(fret) {
+        return (fret - this._getFirstFret(this.config.get("fingering")) + 1) * 40 - 20;
     }
 
+    _getAbsoluteFretPos(fret) {
+        return fret * 40 - 20;;
+    }
+    
     /**
      * Initiates the configuration by setting the defaults.
      * @param {object} config The configuration object.
@@ -177,7 +184,7 @@ class Fretboard {
     _drawNotes() {
         this._noteGroup = this.svg.group().id("notes").transform({
             x: 25,
-            y: this._getFretPos(this.config.get("frets")) - 5 //place below last frets
+            y: this._getAbsoluteFretPos(this.config.get("frets") + 1) - 5 //place below last frets
         });;
         
         var tuning = this.config.get("tuning");
@@ -185,8 +192,8 @@ class Fretboard {
 
         for(let i = 0; i < fingering.length; i++) {
             var string = this.config.get("strings") - i; //strings are in reverse order of array
-            var fret = fingering[i];
-
+            var fret = parseInt(fingering[i]);
+ 
             //ignore unplayed frets
             if(fret === -1) continue;
             
@@ -198,7 +205,7 @@ class Fretboard {
             this._noteGroup.text(intervalNote.toString()).attr({
                 "fill": "black",
                 "style": "font-weight: bold; font-size: 14px",
-                x: this._getStringPos(i+1) - offset
+                x: this._getStringPos(i + 1) - offset
             });
         }
     }
@@ -224,28 +231,29 @@ class Fretboard {
     
     /**
      * Calculates the beginning fret. The nut is always the beginning fret if
-     * all fret positions can fet within the number of frets shown. Otherwise
+     * all fret positions can fret within the number of frets shown. Otherwise
      * the first fret is the lowest fingered fret.
      * 
      * @returns {Number} The number of the beginning fret.
      */
-    _getFirstFret() {
+    _getFirstFret(fingering) {
         var min = Infinity, max = -Infinity;
-        
-        for(var f of this.config.get("fingering")) {
-            if(f.fret < min) {
-                min = f.fret;
+
+        for(var f of fingering) {
+            var fret = parseInt(f.fret);
+
+            //ignore open and closed
+            if(fret === -1 || fret === 0) continue;
+            
+            if(fret < min) {
+                min = fret;
             }
             
-            if(f.fret > max) {
-                max = f.fret;
+            if(fret > max) {
+                max = fret;
             }
         }
-        
-        if(this.config.get("frets") - max <= 1) {
-            return 1;
-        }
-        
+
         return min;
     }
 
@@ -255,12 +263,12 @@ class Fretboard {
      */
     _drawFretLabels() {
         //first fret is always the lowest fret in fingering
-        var startFret = this._getFirstFret();
+        var startFret = this._getFirstFret(this.config.get("fingering"));
         var group = this.svg.group().id("fret_labels").transform({y: 20});
         
         //draw all fret labels
         if(this.config.get("showFretLabels")) {
-            for(var i = 0; i < this.config.get("frets") - 1; i++) {
+            for(var i = 0; i < this.config.get("frets"); i++) {
                 group.text((startFret + i).toString()).attr({
                     "fill": "black",
                     "style": "font-weight: bold; font-size: 18px",
@@ -300,7 +308,7 @@ class Fretboard {
             //draw bar between pogs
             pogG.rect(this._getStringPos(min) - this._getStringPos(max), 10).attr({
                 x: this._getStringPos(max),
-                y: this._getFretPos(fret) - 4
+                y: this._getRelativeFretPos(fret) - 4
             });
             
             //draw the two markers on either end
@@ -309,7 +317,7 @@ class Fretboard {
         } else if(fret === Fretboard.CLOSED_STRING) { //closed string is an X
             pogG.polygon("14,2 12,0 7,5 2,0 0,2 5,7 0,12 2,14 7,9 12,14 14,12 9,7").transform({
                 x: this._getStringPos(string) - 6,
-                y: this._getFretPos(0) + 1
+                y: this._getAbsoluteFretPos(0) + 1
             });
         } else if(fret === Fretboard.OPEN_STRING) { //open string is a circle
             pogG.circle(13).attr({
@@ -318,12 +326,13 @@ class Fretboard {
                 'fill': 'white'
             }).transform({
                 x: this._getStringPos(string) - 6,
-                y: this._getFretPos(0) + 2
+                y: this._getAbsoluteFretPos(0) + 2
             });
-        } else { //regular labeled marker
+        } else {
+            //regular labeled marker
             pogG.transform({
                 x: this._getStringPos(string) - 10,
-                y: this._getFretPos(fret) - 10
+                y: this._getRelativeFretPos(fret) - 10
             });
 
             pogG.circle(22).attr({
