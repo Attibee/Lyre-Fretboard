@@ -154,9 +154,8 @@ class Fretboard {
         var fullFingering = Array(strings).fill(-1, 0, strings);
 
         for(var f of this.config.get("fingering")) {
-            var fret = f.fret;
+            var fret = parseInt(f.fret);
             var string = f.string;
-            var finger = f.finger;
             
             if(typeof f.string == "object") {
                 var min = Math.min(f.string[0], f.string[1]);
@@ -190,6 +189,8 @@ class Fretboard {
         var tuning = this.config.get("tuning");
         var fingering = this._getFretStructure();
 
+        console.log(fingering);
+        
         for(let i = 0; i < fingering.length; i++) {
             var string = this.config.get("strings") - i; //strings are in reverse order of array
             var fret = parseInt(fingering[i]);
@@ -200,6 +201,8 @@ class Fretboard {
             //calculate note
             var note = Note.Parse(tuning[string-1]);
             var intervalNote = note.getTransposition(fret);
+            
+            console.log(note.toString() + " half notes " + fret + " to " + intervalNote.toString());
             var offset = intervalNote.toString().length === 2 ? 7 : 4; //center text 
 
             this._noteGroup.text(intervalNote.toString()).attr({
