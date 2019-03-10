@@ -59,14 +59,14 @@ class Fretboard {
         for(var i = 0; i <= this.config.get("frets"); i++) {
             //draw the nut if the first fret is the nut
             if(i == 0 && firstFret == 1) {
-                this.fretGroup.rect(fretWidth, 6).attr({x: 0, y: i * 40});
+                this.fretGroup.rect(fretWidth, 6).attr({x: 0, y: i * 30});
             } else {
-                this.fretGroup.rect(fretWidth, 2).attr({x: 0, y: i * 40});
+                this.fretGroup.rect(fretWidth, 2).attr({x: 0, y: i * 30});
             }
         }
         
         //draw strings
-        var stringHeight = this.config.get("frets") * 40;
+        var stringHeight = this.config.get("frets") * 30;
                 
         for(var i = 0; i < this.config.get("strings"); i++) {
             this.fretGroup.rect(2, stringHeight).attr({x: i * 25, y: 0});
@@ -118,11 +118,11 @@ class Fretboard {
      * @return {float} The y position of the fret. 
      */
     _getRelativeFretPos(fret) {
-        return (fret - this._getFirstFret(this.config.get("fingering")) + 1) * 40 - 20;
+        return (fret - this._getFirstFret(this.config.get("fingering")) + 1) * 30 - 15;
     }
 
     _getAbsoluteFretPos(fret) {
-        return fret * 40 - 20;;
+        return fret * 30 - 15;
     }
     
     /**
@@ -183,7 +183,7 @@ class Fretboard {
     _drawNotes() {
         this._noteGroup = this.svg.group().id("notes").transform({
             x: 35,
-            y: this._getAbsoluteFretPos(this.config.get("frets") + 1) - 5 //place below last frets
+            y: this._getAbsoluteFretPos(this.config.get("frets") + 1) //place below last frets
         });;
         
         var tuning = this.config.get("tuning");
@@ -275,7 +275,7 @@ class Fretboard {
                 group.text((startFret + i).toString()).attr({
                     "fill": "black",
                     "style": "font-weight: bold; font-size: 18px",
-                    y: i * 40 + 8,
+                    y: i * 30 + 8,
                     "alignment-baseline": "middle"
                 });
             }
