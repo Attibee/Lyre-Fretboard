@@ -47,7 +47,7 @@ class Fretboard {
         
         //15 pixel padding for fret labels
         this.fretGroup = this.svg.group().id("grid").transform({
-            x: 25,
+            x: 35,
             y: 20
         });
         
@@ -182,14 +182,12 @@ class Fretboard {
      */
     _drawNotes() {
         this._noteGroup = this.svg.group().id("notes").transform({
-            x: 25,
+            x: 35,
             y: this._getAbsoluteFretPos(this.config.get("frets") + 1) - 5 //place below last frets
         });;
         
         var tuning = this.config.get("tuning");
         var fingering = this._getFretStructure();
-
-        console.log(fingering);
         
         for(let i = 0; i < fingering.length; i++) {
             var string = this.config.get("strings") - i; //strings are in reverse order of array
@@ -202,7 +200,6 @@ class Fretboard {
             var note = Note.Parse(tuning[string-1]);
             var intervalNote = note.getTransposition(fret);
             
-            console.log(note.toString() + " half notes " + fret + " to " + intervalNote.toString());
             var offset = intervalNote.toString().length === 2 ? 7 : 4; //center text 
 
             this._noteGroup.text(intervalNote.toString()).attr({
