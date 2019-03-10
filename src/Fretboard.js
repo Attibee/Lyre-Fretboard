@@ -23,7 +23,7 @@ class Fretboard {
      */
     _draw() {
         this.svg = SVG(this.config.get("container"))
-                .viewbox(0, 0, (this.config.get("strings") + 1) * 25, (this.config.get("frets") + 1) * 40)
+                .viewbox(0, 0, (this.config.get("strings") + 1) * 25, (this.config.get("frets") + 1) * 30 + 15)
                 .width(500);
         
         //draw the fret/string grid
