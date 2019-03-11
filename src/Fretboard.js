@@ -59,9 +59,9 @@ class Fretboard {
         for(var i = 0; i <= this.config.get("frets"); i++) {
             //draw the nut if the first fret is the nut
             if(i == 0 && firstFret == 1) {
-                this.fretGroup.rect(fretWidth, 6).attr({x: 0, y: i * 30});
+                this.fretGroup.rect(fretWidth, 6).attr({x: 0, y: this._getAbsoluteFretPos(i) + 11});
             } else {
-                this.fretGroup.rect(fretWidth, 2).attr({x: 0, y: i * 30});
+                this.fretGroup.rect(fretWidth, 2).attr({x: 0, y: this._getAbsoluteFretPos(i) + 15});
             }
         }
         
@@ -69,7 +69,7 @@ class Fretboard {
         var stringHeight = this.config.get("frets") * 30;
                 
         for(var i = 0; i < this.config.get("strings"); i++) {
-            this.fretGroup.rect(2, stringHeight).attr({x: i * 25, y: 0});
+            this.fretGroup.rect(2, stringHeight).attr({x: i * 25, y: this._getAbsoluteFretPos(0) + 15});
         }   
     }
     
@@ -118,11 +118,11 @@ class Fretboard {
      * @return {float} The y position of the fret. 
      */
     _getRelativeFretPos(fret) {
-        return (fret - this._getFirstFret(this.config.get("fingering")) + 1) * 30 - 15;
+        return (fret - this._getFirstFret(this.config.get("fingering")) + 1) * 30 - 10;
     }
 
     _getAbsoluteFretPos(fret) {
-        return fret * 30 - 15;
+        return fret * 30 - 10;
     }
     
     /**
@@ -267,16 +267,17 @@ class Fretboard {
     _drawFretLabels() {
         //first fret is always the lowest fret in fingering
         var startFret = this._getFirstFret(this.config.get("fingering"));
-        var group = this.svg.group().id("fret_labels").transform({y: 20});
+        var group = this.svg.group().id("fret_labels").transform({x: 20, y: 20});
         
         //draw all fret labels
         if(this.config.get("showFretLabels")) {
             for(var i = 0; i < this.config.get("frets"); i++) {
                 group.text((startFret + i).toString()).attr({
-                    "fill": "black",
-                    "style": "font-weight: bold; font-size: 18px",
+                    fill: "black",
+                    style: "font-weight: bold; font-size: 18px",
+                    'text-anchor': "end",
                     y: i * 30 + 8,
-                    "alignment-baseline": "middle"
+                    'alignment-baseline': "middle"
                 });
             }
         //always draw starting fret if it's not 1
@@ -320,7 +321,7 @@ class Fretboard {
         } else if(fret === Fretboard.CLOSED_STRING) { //closed string is an X
             pogG.polygon("14,2 12,0 7,5 2,0 0,2 5,7 0,12 2,14 7,9 12,14 14,12 9,7").transform({
                 x: this._getStringPos(string) - 6,
-                y: this._getAbsoluteFretPos(0) + 1
+                y: this._getAbsoluteFretPos(0) - 5
             });
         } else if(fret === Fretboard.OPEN_STRING) { //open string is a circle
             pogG.circle(13).attr({
@@ -329,7 +330,7 @@ class Fretboard {
                 'fill': 'white'
             }).transform({
                 x: this._getStringPos(string) - 6,
-                y: this._getAbsoluteFretPos(0) + 2
+                y: this._getAbsoluteFretPos(0) - 5
             });
         } else {
             //regular labeled marker
