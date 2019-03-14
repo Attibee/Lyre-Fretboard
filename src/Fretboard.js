@@ -282,14 +282,13 @@ class Fretboard {
             }
         //always draw starting fret if it's not 1
         } else if(startFret !== 1) {
-            if(this.config.get("startingFret") == 1) {
-                group.text("1").attr({
-                    "fill": "black",
-                    "style": "font-weight: bold; font-size: 18px",
-                    y: 8,
-                    "alignment-baseline": "middle"
-                });
-            } 
+            group.text(startFret.toString()).attr({
+                fill: "black",
+                style: "font-weight: bold; font-size: 18px",
+                'text-anchor': "end",
+                y: 8,
+                'alignment-baseline': "middle"
+            });
         }
     }
     
