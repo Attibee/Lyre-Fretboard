@@ -1,6 +1,6 @@
 {
     "name": "@lyre/fretboard",
-    "version": "2.1.2",
+    "version": "2.1.3",
     "keywords": [
         "music",
         "chords",
@@ -18,7 +18,7 @@
     "contributors": [],
     "dependencies": {
         "@attibee/config": "^1.0.4",
-        "@lyre/note": "^2.1.5",
+        "@lyre/note": "^2.1.1",
         "svgjs": "^2.6.2"
     },
     "devDependencies": {}
